@@ -1,7 +1,11 @@
 - service: docker
-  name: get app2 IP 
+  name: get app1 IP 
   command: ./bin/get_service_ip
 
 - service: app1
-  name: print app2 IP
+  name: printenv to see app2 env vars
+  command: printenv
+
+- service: app2
+  name: print app1 IP from app2
   command: cat tmp/ips.env

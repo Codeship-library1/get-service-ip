@@ -1,12 +1,18 @@
 app1:
   image: busybox
-  command: sleep 5m
-  volumes:
-    - ./tmp:/tmp
+  command: sleep 1m
+  ports:
+    - '1234'
+  links:
+    - app2
 
 app2:
-  image: busybox
-  command: sleep 5m
+  image: alpine
+  command: sleep 1m
+  ports:
+    - '5678'
+  volumes:
+    - ./tmp:/tmp
 
 docker:
   build: .
@@ -14,4 +20,4 @@ docker:
   volumes:
     - ./tmp:/tmp
   links:
-    - app2
+    - app1
