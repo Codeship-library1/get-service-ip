@@ -1,0 +1,5 @@
+#!/bin/sh
+
+SERVICE_IP=`docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $(docker ps -aq -f ancestor=busybox)`
+
+echo SERVICE_IP=$SERVICE_IP > tmp/ips.env

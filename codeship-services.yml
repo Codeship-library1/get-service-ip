@@ -1,0 +1,17 @@
+app1:
+  image: busybox
+  command: sleep 5m
+  volumes:
+    - ./tmp:/tmp
+
+app2:
+  image: busybox
+  command: sleep 5m
+
+docker:
+  build: .
+  add_docker: true
+  volumes:
+    - ./tmp:/tmp
+  links:
+    - app2
