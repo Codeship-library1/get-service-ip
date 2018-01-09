@@ -1,4 +1,27 @@
-# Get the IP of a running container during a Codeship Pro build
+# This repo has been deprecated
+
+As of January 9, all steps run during a Codeship Pro build run in a dedicated network. Instead of relying on a script to get IPs of containers, you can easily communicate with them inside each step by referencing the service name as the hostname. 
+
+For example, given this services file:
+
+```
+app:
+  image: my_application_image
+database:
+  image: postgres:10
+```
+
+I can communicate with the database container by referencing just `database`:
+
+# inside the app container
+root@d232877f67f5:/# ping database
+PING db (172.25.0.2) 56(84) bytes of data.
+64 bytes from jet-db-run-tests.sleep_5m (172.25.0.2): icmp_seq=1 ttl=64 time=0.089 ms
+
+You can read more about these new features [on our blog](https://blog.codeship.com/isolated-networks-container-discoverability-and-code-upgrades-at-codeship/).
+
+
+## Get the IP of a running container during a Codeship Pro build
 
 _You can run `jet steps` against this repo to see example output. [Download the Jet CLI](bit.ly/codeship-jet-tool)._
 
@@ -22,7 +45,7 @@ docker:
     - app2
 ```
 
-### Add a step to get the IP address for the desired container
+### Add the `bin/get_service_ip` script to a setp to get the IP address for the desired container
 
 There's a little script at `bin/get_service_ip` that will filter running containers by image name, then inspect that container. We can get the IP address from the inspect results using handy formatting. *You need to change this script to suit your needs*. There are several [filtering options](https://docs.docker.com/engine/reference/commandline/ps/#filtering).
 
